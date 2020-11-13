@@ -2,6 +2,8 @@
 #
 BOARD_DESC      = "ESP32_heltec-LoRa32_v2"
 
+pin_LED_Intern  = 25
+
 # I2C
 pin_I2C_SDA     = 21    # GPIO21
 pin_I2C_SCL     = 22    # GPIO22
