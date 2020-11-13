@@ -1,4 +1,6 @@
 # Client -- Heltec LoRa32-board mit  OLED Display
+https://heltec.org/project/wifi-lora-32/
+
 # attached devices:
 	- SDC30
 	- RGB-LED

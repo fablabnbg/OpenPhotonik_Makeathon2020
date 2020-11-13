@@ -4,7 +4,12 @@ from scd30 import SCD30
 
 # Heltec LoRa32-board mit  OLED Display
 
-i2c = I2C(0)
+i2c = I2C(0, scl=Pin(pin_I2C_SCL), sda=Pin(pin_I2C_SDA))
+idev = i2c.scan()
+print("idev=");
+print(idev)
+
+
 scd30 = SCD30(i2c, 0x61)
 
 while True:
