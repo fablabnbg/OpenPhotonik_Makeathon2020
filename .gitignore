@@ -1,0 +1,9 @@
+# LC_ALL=C sort -uf -o .gitignore .gitignore && cat .gitignore
+*.bak
+*.swo
+*.swp
+*[.-]old
+*[.-]save
+*[.-]tmp
+*~
+.DS_Store
