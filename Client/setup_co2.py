@@ -1,7 +1,9 @@
 # make the co2-sensor ready to run continuously
 #
-from machine import Pin, I2C
+import time
+#
 from scd30 import SCD30
+from machine import Pin, I2C
 from machine_esp32_heltec_LoRa32 import *
 
 def co2_attach():
@@ -14,7 +16,7 @@ def co2_attach():
     if DEBUG:
         dev_scd30 = i2c_scd30.scan()
         print("idev= ", end='');
-        print(idev_scd30)
+        print(dev_scd30)
         time.sleep_ms(200)
 
     ### attach to sensor
