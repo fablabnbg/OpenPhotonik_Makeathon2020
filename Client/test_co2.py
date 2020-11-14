@@ -11,7 +11,7 @@ from scd30 import SCD30
 scl_pin   = Pin(pin_I2C_SCL, Pin.IN, Pin.PULL_UP)
 sda_pin   = Pin(pin_I2C_SDA, Pin.IN, Pin.PULL_UP)
 
-i2c = I2C(scl=scl_pin, sda=sda_pin, freq=50000)
+i2c = I2C(scl=scl_pin, sda=sda_pin, freq=40000)
 
 ### debug scan i2c-bus and print found devices
 idev = i2c.scan()
@@ -35,7 +35,7 @@ scd30.start_continous_measurement()
 time.sleep_ms(100)
 
 cnt = 0
-err = 0.0000001
+err = 0
 start_time = utime.ticks_ms()
 while True:
     # Wait for sensor data to be ready to read (by default every 2 seconds)
@@ -51,7 +51,7 @@ while True:
     if err:
         quot = cnt/err
     else:
-        quote = 0
+        quot = 0
     print("%6d.%03d: " % (diff/1000,diff%1000), end = '')
     print("%3d/%3d/%3d, " % (cnt,err, quot), end = '')
     print( result )
