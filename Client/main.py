@@ -61,8 +61,10 @@ while True:
 
     ### here we have a real value so we can updte the display and LED
     r_co2, r_temp, r_hum = result    # assign tupel to named variables
-    r_co2 = int(r_co2)
-    
+    r_co2  = int(r_co2)
+    r_hum  = int(r_hum)       # datasheet 3% accuracy
+    r_temp = int(r_temp*10) / 10  # only 0.1 accuracy should be enough
+
     oled_update_co2(r_co2)
     rgb_led_update_co2(r_co2)
     # mqtt-update
