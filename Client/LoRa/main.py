@@ -21,7 +21,7 @@ device_config = {
 }
 
 lora_parameters = {
-    'frequency': 868E6, 
+    'frequency': 433E6, 
     'tx_power_level': 2, 
     'signal_bandwidth': 125E3,    
     'spreading_factor': 8, 
