@@ -1,16 +1,16 @@
 #include <RH_RF95.h>
-
+#include <RHSoftwareSPI.h>
 //#include <LoRaNow.h>
 
 #include <WiFi.h>
 #include "time.h"
  
-#define LORA_SCK    18
+#define LORA_SCK    5
 #define LORA_MISO   19
-#define LORA_MOSI   23
-#define LORA_CS     5
-#define LORA_INT    17
-#define LORA_RST    21
+#define LORA_MOSI   27
+#define LORA_CS     18
+#define LORA_INT    26
+#define LORA_RST    14
 
 //#define LED_PIN     0
 
@@ -19,12 +19,14 @@
 const char* ssid       = "FBTest";
 const char* password   = "Dasist1Test!";
 
-RH_RF95 rf95(LORA_CS, LORA_INT);
-
+RHSoftwareSPI spi;
+RH_RF95 rf95(LORA_CS, LORA_INT, spi);
 
 void setup()
 {
   pinMode(LORA_RST, OUTPUT);
+  spi.setPins(LORA_MISO, LORA_MOSI, LORA_SCK);
+  spi.begin();
   //pinMode(LED_PIN, OUTPUT);
 
  /* pinMode(LORA_SCK, OUTPUT);
@@ -74,69 +76,46 @@ void setup()
   }
 
   LoRaNow.onMessage(onMessage);
-  LoRaNow.gateway();
-  LoRaNow.showStatus(Serial);*/
+  LoRaNow.onSleep(onSleep);
+  LoRaNow.showStatus(Serial);
 
   //digitalWrite(LED_PIN, HIGH);
  
   //disconnect WiFi as it's no longer needed
   //WiFi.disconnect(true);
-  //WiFi.mode(WIFI_OFF);
+  //WiFi.mode(WIFI_OFF);*/
 }
 
 void loop()
-{ 
-  if (rf95.available())
-  {
-    // Should be a message for us now   
-    uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
-    uint8_t len = sizeof(buf);
+{
+  Serial.println("Sending to rf95_server");
+  // Send a message to rf95_server
+  uint8_t data[] = "Hello World!";
+  rf95.send(data, sizeof(data));
+  
+  rf95.waitPacketSent();
+  // Now wait for a reply
+  uint8_t buf[RH_RF95_MAX_MESSAGE_LEN];
+  uint8_t len = sizeof(buf);
+ 
+  if (rf95.waitAvailableTimeout(3000))
+  { 
+    // Should be a reply message for us now   
     if (rf95.recv(buf, &len))
-    {
-      //digitalWrite(led, HIGH);
-//      RH_RF95::printBuffer("request: ", buf, len);
-      Serial.print("got request: ");
+   {
+      Serial.print("got reply: ");
       Serial.println((char*)buf);
 //      Serial.print("RSSI: ");
-//      Serial.println(rf95.lastRssi(), DEC);
-      
-      // Send a reply
-      uint8_t data[] = "And hello back to you";
-      rf95.send(data, sizeof(data));
-      rf95.waitPacketSent();
-      Serial.println("Sent a reply");
-      //digitalWrite(led, LOW);
+//      Serial.println(rf95.lastRssi(), DEC);    
     }
     else
     {
       Serial.println("recv failed");
     }
   }
-  //LoRaNow.loop();
-  /*int pins[] = {LORA_RST, LORA_SCK, LORA_MISO, LORA_MOSI, LORA_CS, LORA_INT};
-  for(int i = 0; i < 6; i++){
-    digitalWrite(pins[i], LOW);
-    delay(10);
-    digitalWrite(pins[i], HIGH);
-  }*/
+  else
+  {
+    Serial.println("No reply, is rf95_server running?");
+  }
+  delay(400);
 }
-/*void onMessage(uint8_t *buffer, size_t size)
-{
-  unsigned long id = LoRaNow.id();
-  byte count = LoRaNow.count();
-
-  Serial.print("Node Id: ");
-  Serial.println(id, HEX);
-  Serial.print("Count: ");
-  Serial.println(count);
-  Serial.print("Message: ");
-  Serial.write(buffer, size);
-  Serial.println();
-  Serial.println();
-
-  // Send data to the node
-  LoRaNow.clear();
-  LoRaNow.print("LoRaNow Gateway Message ");
-  LoRaNow.print(millis());
-  LoRaNow.send();
-}*/
