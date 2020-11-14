@@ -7,8 +7,12 @@ redPin   = Pin(pin_RGB_r, Pin.OUT)
 greenPin = Pin(pin_RGB_g, Pin.OUT)
 bluePin  = Pin(pin_RGB_b, Pin.OUT)
 
-def led_color(color):
-    if color == "green":
+def rgb_led_update(color):
+    if color == "off":
+        greenPin.value(0)
+        bluePin.value(0)
+        redPin.value(0)
+    elif color == "green":
         greenPin.value(1)
         bluePin.value(0)
         redPin.value(0)
@@ -24,11 +28,7 @@ def led_color(color):
         greenPin.value(0)
         bluePin.value(0)
         redPin.value(0)
-    
-def led_off():
-    greenPin.value(0)
-    bluePin.value(0)
-    redPin.value(0)
+ 
 
 def blink(freq):
     greenPin.value(0)
