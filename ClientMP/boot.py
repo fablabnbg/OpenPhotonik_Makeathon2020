@@ -9,8 +9,8 @@ import time
 import gc
 import webrepl
 
-if True:
-#if False:
+WLAN_ENABLE = True
+if WLAN_ENABLE:
     import wlan_mywlan
     #import wlan_fln
     #
