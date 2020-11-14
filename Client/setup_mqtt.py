@@ -21,7 +21,7 @@ def mqtt_publish( sensor_path, sensor_value ):
 
 ############################
 def my_mqtt_init(server, id_client):
-    id = id_client + ubinascii.hexlify(machine.unique_id()[3:])
+    id = id_client + b'/' + ubinascii.hexlify(machine.unique_id()[3:])
     c = MQTTClient(id_client, server)
     c.connect()
     return c, id

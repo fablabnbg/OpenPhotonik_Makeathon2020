@@ -47,7 +47,7 @@ while True:
             time.sleep_ms(200)
         m_cnt += 1
         result = scd30.read_measurement()
-    except OSerror:
+    except OSError:
         m_err += 1
         m_quot = m_cnt/m_err
         result = 'skipped'
