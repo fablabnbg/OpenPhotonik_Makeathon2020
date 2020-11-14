@@ -22,6 +22,12 @@ setup_oled()
 from setup_rgb import *
 setup_rgb()
 
+mqtt_client_prefix  = b'Hackaton-'
+#mqtt_server         = b'mqtt.mydomain.lan'  # DNS name
+mqtt_server         = b'192.168.1.58'       # IP-addr
+from setup_mqtt import *
+setup_mqtt(mqtt_server, mqtt_client_prefix)
+
 ########################################
 ### main loop
 # 1. fetching sensor data
@@ -35,18 +41,17 @@ start_time = utime.ticks_ms()
 while True:
     # Wait for sensor data to be ready to read (by default every 2 seconds)
     up_time = utime.ticks_ms() - start_time
+    m_quot  = m_cnt
     try:
         while scd30.get_status_ready() != 1:
             time.sleep_ms(200)
         m_cnt += 1
         result = scd30.read_measurement()
-    except OSm_error:
+    except OSerror:
         m_err += 1
-        result = 'skipped'
-    if m_err:
         m_quot = m_cnt/m_err
-    else:
-        m_quot = m_cnt
+        result = 'skipped'
+        
     print("%6d.%03d: " % (up_time/1000, up_time%1000), end = '')
     print("%3d/%3d/%3d, " % (m_cnt,m_err, m_quot), end = '')
     print( result )
@@ -60,5 +65,11 @@ while True:
     
     oled_update_co2(r_co2)
     rgb_led_update_co2(r_co2)
-    # mqtt_update(r_co2, r_temp, r_hum)
-    
+    # mqtt-update
+    mqtt_publish( b'/m_uptime', up_time )
+    mqtt_publish( b'/m_cnt',    m_cnt )
+    mqtt_publish( b'/m_err',    m_err )
+    mqtt_publish( b'/m_quot',   m_quot )
+    mqtt_publish( b'/co2',      r_co2 )
+    mqtt_publish( b'/temp',     r_temp )
+    mqtt_publish( b'/hum',      r_hum )
