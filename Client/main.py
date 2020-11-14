@@ -22,7 +22,7 @@ setup_oled()
 from setup_rgb import *
 setup_rgb()
 
-mqtt_client_prefix  = b'Hackaton-'
+mqtt_client_prefix  = b'Hackaton'
 #mqtt_server         = b'mqtt.mydomain.lan'  # DNS name
 mqtt_server         = b'192.168.1.58'       # IP-addr
 from setup_mqtt import *
