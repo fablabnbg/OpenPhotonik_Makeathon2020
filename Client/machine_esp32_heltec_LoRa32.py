@@ -3,6 +3,9 @@
 BOARD_DESC      = "ESP32_heltec-LoRa32_v2"
 
 pin_LED_Intern  = 25
+pin_RGB_r       = 17
+pin_RGB_g       = 12
+pin_RGB_b       = 13
 
 # I2C
 pin_I2C_SDA     = 21    # GPIO21
