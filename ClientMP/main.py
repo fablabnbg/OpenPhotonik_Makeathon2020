@@ -3,18 +3,11 @@ print('\n### OpenPhotonik_Makeathon2020\n')
 
 import time, utime
 from time import sleep
-# from machine import Pin, I2C
-
 from machine_esp32_heltec_LoRa32 import *
-
-# from rgb_led import *
-# from ssd1306 import SSD1306_I2C
 
 from setup_co2 import *
 from scd30 import SCD30
-
 scd30 = co2_attach()
-
 
 from setup_oled import *
 setup_oled()
@@ -59,14 +52,21 @@ while True:
     if result == "skipped":
         continue     # start while loop over again
 
-    ### here we have a real value so we can updte the display and LED
-    r_co2, r_temp, r_hum = result    # assign tupel to named variables
-    r_co2  = int(r_co2)
-    r_hum  = int(r_hum)       # datasheet 3% accuracy
-    r_temp = int(r_temp*10) / 10  # only 0.1 accuracy should be enough
-
+    ### here we have a real values so we can update the display and LED
+    r_co2, r_temp, r_hum = result  # assign tupel to named variables
+    r_co2  = int(r_co2)            # truncate value no fraction
+    r_hum  = int(r_hum)            # datasheet 3% accuracy
+    r_temp = int(r_temp*10) / 10   # only 0.1 accuracy should be enough
+    
+    # we switch off the LED during update
+    # this should crate flickering which
+    # indicate measurement is still alive
+    # when LED is constant we know it is frozzen crashed
+    # or something similar happend
+    rgb_led_update_co2(-1)    # this switch OFF the led
     oled_update_co2(r_co2)
-    rgb_led_update_co2(r_co2)
+    #time.sleep_ms(200)
+    rgb_led_update_co2(r_co2) # here it is turned on again
     # mqtt-update
     mqtt_publish( b'/m_uptime', up_time )
     mqtt_publish( b'/m_cnt',    m_cnt )

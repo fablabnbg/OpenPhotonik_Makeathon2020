@@ -26,7 +26,7 @@ def rgb_led_update(color):
         redPin.value(1)
     else:
         greenPin.value(0)
-        bluePin.value(0)
+        bluePin.value(1)
         redPin.value(0)
  
 
