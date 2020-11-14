@@ -9,8 +9,9 @@ import time
 import gc
 import webrepl
 
-if False:
-    import wlan_wline2
+if True:
+#if False:
+    import wlan_mywlan
     #import wlan_fln
     #
     # SSID: MicroPython-*
