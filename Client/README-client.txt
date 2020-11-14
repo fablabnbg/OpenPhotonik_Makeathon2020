@@ -18,6 +18,10 @@ lib/wlan_mywlan.py	# change SSID/password to your needs
 # WLAN enable/disable
 boot.py			#  un/comment: if True:   if False: around line 12-13
 
+# MQTT
+https://micropython-iot-hackathon.readthedocs.io/en/latest/mqtt.html
+https://pypi.org/project/micropython-umqtt.simple/
+
 
 ###---------------------------------------------------------------------------
 ### TODO:
@@ -27,3 +31,5 @@ Traceback (most recent call last):
   File "/lib/scd30.py", line 95, in get_status_ready
   File "/lib/scd30.py", line 161, in __read_bytes
 OSError: [Errno 110] ETIMEDOUT
+# heinz done
+

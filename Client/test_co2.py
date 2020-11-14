@@ -28,6 +28,7 @@ time.sleep_ms(1000)
 fw_version = scd30.get_firmware_version()
 print("SCD30 Firmware Version: major=0x%02x minor=0x%02x" %  fw_version)
 
+scd30.set_automatic_recalibration(True)
 scd30.set_measurement_interval(2)
 time.sleep_ms(100)
 
@@ -46,12 +47,13 @@ while True:
         cnt += 1
         result = scd30.read_measurement()
     except OSError:
+        time.sleep_ms(2000)   # wait to recover
         err += 1
         result = 'skipped'
     if err:
         quot = cnt/err
     else:
-        quot = 0
+        quot = cnt
     print("%6d.%03d: " % (diff/1000,diff%1000), end = '')
     print("%3d/%3d/%3d, " % (cnt,err, quot), end = '')
     print( result )
