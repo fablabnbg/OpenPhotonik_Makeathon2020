@@ -35,14 +35,23 @@ scd30.start_continous_measurement()
 time.sleep_ms(100)
 
 cnt = 0
+err = 0.0000001
 start_time = utime.ticks_ms()
 while True:
     # Wait for sensor data to be ready to read (by default every 2 seconds)
-    while scd30.get_status_ready() != 1:
-        time.sleep_ms(200)
-    cnt += 1
     diff = utime.ticks_ms() - start_time
+    try:
+        while scd30.get_status_ready() != 1:
+            time.sleep_ms(200)
+        cnt += 1
+        result = scd30.read_measurement()
+    except OSError:
+        err += 1
+        result = 'skipped'
+    if err:
+        quot = cnt/err
+    else:
+        quote = 0
     print("%6d.%03d: " % (diff/1000,diff%1000), end = '')
-    print("%3d, " % cnt, end = '')
-    print(scd30.read_measurement())
-
+    print("%3d/%3d/%3d, " % (cnt,err, quot), end = '')
+    print( result )
