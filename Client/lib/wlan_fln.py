@@ -11,4 +11,4 @@ for x in range(5):
 else:
     print('\nwlan.ifconfig: ', end='')
 print(wlan.ifconfig())
-print('wline2.done')
+print('FLN.done')
