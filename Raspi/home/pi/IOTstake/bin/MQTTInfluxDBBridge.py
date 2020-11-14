@@ -10,7 +10,7 @@ INFLUXDB_PASSWORD = 'mqttSafe'
 INFLUXDB_DATABASE = 'Makeathon'
 
 MQTT_ADDRESS = 'localhost'
-#MQTT_USER = 'cdavid'
+#MQTT_USER = 'cdavid'       # line below deactivated
 #MQTT_PASSWORD = 'cdavid'
 MQTT_TOPIC = 'Hackaton/+/+'
 MQTT_REGEX = 'Hackaton/([^/]+)/([^/]+)'
@@ -70,7 +70,7 @@ def main():
     _init_influxdb_database()
 
     mqtt_client = mqtt.Client(MQTT_CLIENT_ID)
-    mqtt_client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
+    # mqtt_client.username_pw_set(MQTT_USER, MQTT_PASSWORD)
     mqtt_client.on_connect = on_connect
     mqtt_client.on_message = on_message
 
