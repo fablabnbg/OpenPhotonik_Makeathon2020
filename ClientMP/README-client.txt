@@ -32,3 +32,20 @@ https://pypi.org/project/micropython-umqtt.simple/
 ###---------------------------------------------------------------------------
 - LoRa integration
 - transmitt data over Lora (same data as mqtt)
+
+PROBLEM: after ~6hours 
+ 21432.342: 10430/822/10429, (803.391, 23.88915, 43.46313)
+ 21434.517: 10431/822/10430, (803.5596, 23.88915, 43.42957)
+ 21436.497: 10432/822/10431, (803.4331, 23.9025, 43.41736)
+ 21438.677: 10433/822/10432, (803.1856, 23.91585, 43.4433)
+ 21440.651: 10434/822/10433, (802.4941, 23.88915, 43.41583)
+ 21442.623: 10435/822/10434, (802.9569, 23.9025, 43.42957)
+ 21444.795: 10436/822/10435, (802.9708, 23.9025, 43.45245)
+Traceback (most recent call last):
+  File "main.py", line 40, in <module>
+  File "/lib/scd30.py", line 96, in get_status_ready
+  File "/lib/scd30.py", line 166, in __check_crc
+CRCException:
+MicroPython v1.13 on 2020-09-02; ESP32 module with ESP32
+Type "help()" for more information.
+

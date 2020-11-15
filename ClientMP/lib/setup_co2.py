@@ -9,7 +9,7 @@ from machine_esp32_heltec_LoRa32 import *
 def co2_attach():
     scl_pin_scd30   = Pin(pin_I2C_SCL, Pin.IN, Pin.PULL_UP)
     sda_pin_scd30   = Pin(pin_I2C_SDA, Pin.IN, Pin.PULL_UP)
-    i2c_scd30 = I2C(scl=scl_pin_scd30, sda=sda_pin_scd30, freq=50000)
+    i2c_scd30 = I2C(scl=scl_pin_scd30, sda=sda_pin_scd30, freq=40000)
 
     ### debug scan i2c_scd30-bus and print found devices
     DEBUG = True
