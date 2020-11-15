@@ -64,7 +64,7 @@ while True:
     # when LED is constant we know it is frozzen crashed
     # or something similar happend
     rgb_led_update_co2(-1)    # this switch OFF the led
-    oled_update_co2(r_co2)
+    oled_update_co2(r_co2, r_temp, r_hum)
     #time.sleep_ms(200)
     rgb_led_update_co2(r_co2) # here it is turned on again
     # mqtt-update
