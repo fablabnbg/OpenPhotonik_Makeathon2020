@@ -34,7 +34,6 @@ start_time = utime.ticks_ms()
 while True:
     # Wait for sensor data to be ready to read (by default every 2 seconds)
     up_time = utime.ticks_ms() - start_time
-    m_quot  = m_cnt
     try:
         while scd30.get_status_ready() != 1:
             time.sleep_ms(200)
@@ -42,11 +41,13 @@ while True:
         result = scd30.read_measurement()
     except OSError:
         m_err += 1
-        m_quot = m_cnt/m_err
         result = 'skipped'
-        
+    if m_err > 0:
+        m_quot = m_cnt/m_err
+    else:
+        m_quot = m_cnt
     print("%6d.%03d: " % (up_time/1000, up_time%1000), end = '')
-    print("%3d/%3d/%3d, " % (m_cnt,m_err, m_quot), end = '')
+    print("%3d/%3d/%3d, " % (m_cnt, m_err, m_quot), end = '')
     print( result )
 
     if result == "skipped":
